@@ -1,0 +1,199 @@
+definitions:
+  handler.ErrorResponse:
+    properties:
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+  handler.OpeningInputDto:
+    properties:
+      company:
+        type: string
+      link:
+        type: string
+      location:
+        type: string
+      remote:
+        type: boolean
+      role:
+        type: string
+      salary:
+        type: integer
+    type: object
+  handler.SuccessResponse:
+    properties:
+      data: {}
+      status:
+        type: integer
+    type: object
+  schemas.OpeningOutputDto:
+    properties:
+      company:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        type: string
+      id:
+        type: integer
+      link:
+        type: string
+      location:
+        type: string
+      remote:
+        type: boolean
+      role:
+        type: string
+      salary:
+        type: integer
+      updatedAt:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /openings:
+    get:
+      description: Find all openings
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.SuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/schemas.OpeningOutputDto'
+                  type: array
+              type: object
+      summary: Find all openings
+      tags:
+      - openings
+    post:
+      consumes:
+      - application/json
+      description: Create a new opening
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.OpeningInputDto'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/schemas.OpeningOutputDto'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Create a new opening
+      tags:
+      - openings
+  /openings/{opening_id}:
+    delete:
+      description: Delete an opening
+      parameters:
+      - description: Opening Id
+        in: path
+        name: opening_id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Delete an opening
+      tags:
+      - openings
+    get:
+      description: Find an opening by id
+      parameters:
+      - description: Opening Id
+        in: path
+        name: opening_id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/schemas.OpeningOutputDto'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Find an opening by id
+      tags:
+      - openings
+    patch:
+      consumes:
+      - application/json
+      description: Update some fields of an opening
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.OpeningInputDto'
+      - description: Opening Id
+        in: path
+        name: opening_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/schemas.OpeningOutputDto'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Update an opening
+      tags:
+      - openings
+swagger: "2.0"
